@@ -12,8 +12,8 @@ import styles from './Style';
 
 const Login = (props) => {
   const databaseSync = new DatabaseSync();
-  const [email, setEmail] = useState('demo@hikmahealth.org');
-  const [password, setPassword] = useState('HikmaHealth');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [instanceList, setInstanceList] = useState([]);
   const [selectedInstance, setSelectedInstance] = useState();
   const [showInstanceDropdown, setShowInstanceDropdown] = useState(false);
@@ -41,7 +41,7 @@ const Login = (props) => {
   }, [props])
 
   const getInstances = async (): Promise<any> => {
-    return fetch('https://demo-api.hikmahealth.org/api/instances', {
+    return fetch('https://dotw-hikma.azurewebsites.net/api/instances', {
       method: 'GET',
     }).then(response => {
       return response.json()
