@@ -65,7 +65,7 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
+<TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"

@@ -103,7 +103,7 @@ class DatabaseImpl implements Database {
   private async editStringWithId(stringContent: StringContent, id: string): Promise<string> {
     const date = new Date().toISOString();
     const db = await this.getDatabase();
-    await db.executeSql(`UPDATE string_content SET content = ?, edited_at = ? WHERE id = ? AND language = ?`, [stringContent.content, date, id, stringContent.language]);
+    await db.executeSql(`UPDATE string_content SET content = ?, updated_at = ? WHERE id = ? AND language = ?`, [stringContent.content, date, id, stringContent.language]);
     return id;
   }
 
@@ -120,7 +120,7 @@ class DatabaseImpl implements Database {
   private async saveStringWithId(stringContent: StringContent, id: string): Promise<string> {
     const date = new Date().toISOString();
     const db = await this.getDatabase();
-    await db.executeSql(`INSERT INTO string_content (id, language, content, edited_at) VALUES (?, ?, ?, ?);`, [id, stringContent.language, stringContent.content, date]);
+    await db.executeSql(`INSERT INTO string_content (id, language, content, updated_at) VALUES (?, ?, ?, ?);`, [id, stringContent.language, stringContent.content, date]);
     return id;
   }
 
@@ -133,7 +133,7 @@ class DatabaseImpl implements Database {
     const hashed_password = password
     const db = await this.getDatabase();
 
-    await db.executeSql(`INSERT INTO users (id, name, role, email, hashed_password, instance_url, edited_at) VALUES (?, ?, ?, ?, ?, ?, ?);`, [id, user.name, user.role, user.email, hashed_password, user.instance_url, date]);
+    await db.executeSql(`INSERT INTO users (id, name, role, email, hashed_password, instance_url, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?);`, [id, user.name, user.role, user.email, hashed_password, user.instance_url, date]);
     return;
   }
 
@@ -142,7 +142,7 @@ class DatabaseImpl implements Database {
     const id = patient.id.replace(/-/g, "")
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`INSERT INTO patients (id, given_name, surname, date_of_birth, country, hometown, phone, sex, image_timestamp, edited_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`, [id, patient.given_name, patient.surname, patient.date_of_birth, patient.country, patient.hometown, patient.phone, patient.sex, null, date])
+        db.executeSql(`INSERT INTO patients (id, given_name, surname, date_of_birth, country, hometown, phone, sex, image_timestamp, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`, [id, patient.given_name, patient.surname, patient.date_of_birth, patient.country, patient.hometown, patient.phone, patient.sex, null, date])
       )
       .then(([results]) => {
         console.log(
@@ -155,7 +155,7 @@ class DatabaseImpl implements Database {
     const date = new Date().toISOString();
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`UPDATE patients SET given_name = ?, surname = ?, date_of_birth = ?, country = ?, hometown = ?, phone = ?, sex = ?, image_timestamp = ?, edited_at = ? WHERE id = ?`, [patient.given_name, patient.surname, patient.date_of_birth, patient.country, patient.hometown, patient.phone, patient.sex, null, date, patient.id])
+        db.executeSql(`UPDATE patients SET given_name = ?, surname = ?, date_of_birth = ?, country = ?, hometown = ?, phone = ?, sex = ?, image_timestamp = ?, updated_at = ? WHERE id = ?`, [patient.given_name, patient.surname, patient.date_of_birth, patient.country, patient.hometown, patient.phone, patient.sex, null, date, patient.id])
       )
       .then(async ([results]) => {
         return this.getPatient(patient.id)
@@ -166,7 +166,7 @@ class DatabaseImpl implements Database {
     const date = new Date().toISOString();
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`UPDATE events SET event_metadata = ?, edited_at = ? WHERE id = ?`, [event_metadata, date, id])
+        db.executeSql(`UPDATE events SET event_metadata = ?, updated_at = ? WHERE id = ?`, [event_metadata, date, id])
       )
       .then(async ([results]) => {
         return this.getEvents(id)
@@ -174,10 +174,10 @@ class DatabaseImpl implements Database {
   }
 
   public editVisitDate(visit_id: string, date: string): Promise<void> {
-    const edited_at = new Date().toISOString();
+    const updated_at = new Date().toISOString();
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`UPDATE visits SET check_in_timestamp = ?, edited_at = ? WHERE id = ?`, [date, edited_at, visit_id])
+        db.executeSql(`UPDATE visits SET check_in_timestamp = ?, updated_at = ? WHERE id = ?`, [date, updated_at, visit_id])
       ).then(() => {
         return
       })
@@ -187,7 +187,7 @@ class DatabaseImpl implements Database {
     const date = new Date().toISOString();
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`UPDATE patients SET image_timestamp = ?, edited_at = ? WHERE id = ?`, [newTimestamp, date, patientId])
+        db.executeSql(`UPDATE patients SET image_timestamp = ?, updated_at = ? WHERE id = ?`, [newTimestamp, date, patientId])
       ).then(() => {
         return
       })
@@ -198,7 +198,7 @@ class DatabaseImpl implements Database {
     const id = event.id.replace(/-/g, "")
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`INSERT INTO events (id, patient_id, visit_id, event_type, event_timestamp, edited_at, event_metadata) VALUES (?, ?, ?, ?, ?, ?, ?);`, [id, event.patient_id, event.visit_id, event.event_type, date, date, event.event_metadata])
+        db.executeSql(`INSERT INTO events (id, patient_id, visit_id, event_type, event_timestamp, updated_at, event_metadata) VALUES (?, ?, ?, ?, ?, ?, ?);`, [id, event.patient_id, event.visit_id, event.event_type, date, date, event.event_metadata])
       )
       .then(([results]) => {
         console.log(
@@ -212,7 +212,7 @@ class DatabaseImpl implements Database {
     const id = visit.id.replace(/-/g, "")
     return this.getDatabase()
       .then(db =>
-        db.executeSql(`INSERT INTO visits (id, patient_id, clinic_id, provider_id, check_in_timestamp, edited_at) VALUES (?, ?, ?, ?, ?, ?);`, [id, visit.patient_id, visit.clinic_id, visit.provider_id, date, date])
+        db.executeSql(`INSERT INTO visits (id, patient_id, clinic_id, provider_id, check_in_timestamp, updated_at) VALUES (?, ?, ?, ?, ?, ?);`, [id, visit.patient_id, visit.clinic_id, visit.provider_id, date, date])
       )
       .then(([results]) => {
         console.log(
@@ -242,7 +242,7 @@ class DatabaseImpl implements Database {
   public getAllPatientEventsByType(patient_id: string, event_type: string): Promise<Event[]> {
     return this.getDatabase()
       .then(db =>
-        db.executeSql("SELECT id, patient_id, event_type, event_metadata, edited_at FROM events WHERE patient_id = ? AND event_type = ? ORDER BY event_timestamp DESC;", [patient_id, event_type])
+        db.executeSql("SELECT id, patient_id, event_type, event_metadata, updated_at FROM events WHERE patient_id = ? AND event_type = ? ORDER BY event_timestamp DESC;", [patient_id, event_type])
       )
       .then(async ([results]) => {
         if (results === undefined) {
@@ -252,9 +252,9 @@ class DatabaseImpl implements Database {
         const events: Event[] = [];
         for (let i = 0; i < count; i++) {
           const row = results.rows.item(i);
-          const { id, patient_id, event_type, event_metadata, edited_at } = row;
+          const { id, patient_id, event_type, event_metadata, updated_at } = row;
 
-          events.push({ id, patient_id, event_type, event_metadata, edited_at });
+          events.push({ id, patient_id, event_type, event_metadata, updated_at });
         }
         return events;
       });
@@ -316,7 +316,7 @@ class DatabaseImpl implements Database {
     console.log("[db] Fetching patients from the db...");
     return this.getDatabase()
       .then(db =>
-        db.executeSql("SELECT id, given_name, surname, date_of_birth, country, hometown, sex, phone FROM patients ORDER BY edited_at DESC LIMIT 25;")
+        db.executeSql("SELECT id, given_name, surname, date_of_birth, country, hometown, sex, phone FROM patients ORDER BY updated_at DESC LIMIT 25;")
       )
       .then(async ([results]) => {
         if (results === undefined) {
@@ -362,7 +362,7 @@ class DatabaseImpl implements Database {
   public searchPatients(givenName: string, surname: string, country: string, hometown: string, camp: string, phone: string, minYear: number, maxYear: number): Promise<Patient[]> {
     let queryTerms = '';
 
-    const queryBase = "SELECT DISTINCT patients.id, patients.given_name, patients.surname, patients.date_of_birth, patients.country, patients.hometown, patients.sex, patients.phone, patients.edited_at FROM patients LEFT JOIN string_content ON patients.given_name = string_content.id OR patients.surname = string_content.id OR patients.country = string_content.id OR patients.hometown = string_content.id LEFT JOIN events ON patients.id = events.patient_id"
+    const queryBase = "SELECT DISTINCT patients.id, patients.given_name, patients.surname, patients.date_of_birth, patients.country, patients.hometown, patients.sex, patients.phone, patients.updated_at FROM patients LEFT JOIN string_content ON patients.given_name = string_content.id OR patients.surname = string_content.id OR patients.country = string_content.id OR patients.hometown = string_content.id LEFT JOIN events ON patients.id = events.patient_id"
 
     if (!!givenName) {
       queryTerms += this.fuzzySearch(givenName.trim().toLowerCase())
@@ -415,7 +415,7 @@ class DatabaseImpl implements Database {
         queryTerms += ` WHERE SUBSTR(patients.date_of_birth, 1, 4) BETWEEN '${minYear}' AND '${maxYear}'`
       }
     }
-    queryTerms += ' ORDER BY patients.edited_at DESC LIMIT 50'
+    queryTerms += ' ORDER BY patients.updated_at DESC LIMIT 50'
 
     console.log("[db] Fetching patients from the db...");
     return this.getDatabase()
@@ -594,7 +594,7 @@ class DatabaseImpl implements Database {
   public deleteVisit(visit_id: string, patient_id: string): Promise<Visit[]> {
     const date = new Date().toISOString();
     return this.getDatabase().then(db => {
-      db.executeSql("UPDATE visits SET edited_at = ?, deleted = ? WHERE id = ?", [date, 1, visit_id])
+      db.executeSql("UPDATE visits SET updated_at = ?, deleted = ? WHERE id = ?", [date, 1, visit_id])
     }).then(() => {
       return this.getVisits(patient_id)
     })

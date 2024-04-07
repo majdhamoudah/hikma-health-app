@@ -64,7 +64,7 @@ const SnapshotList = (props) => {
         break
     }
 
-    const time = new Date(item.edited_at).toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })
+    const time = new Date(item.updated_at).toLocaleString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })
 
     return (
       <TouchableOpacity style={styles.card}

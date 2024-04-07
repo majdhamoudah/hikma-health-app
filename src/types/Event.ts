@@ -5,5 +5,5 @@ export interface Event {
   event_type: string
   event_timestamp?: string
   event_metadata: string
-  edited_at?: string
+  updated_at?: string
 }

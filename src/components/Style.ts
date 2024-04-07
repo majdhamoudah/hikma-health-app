@@ -37,9 +37,9 @@ export default StyleSheet.create({
   instanceList: {
     padding: 10,
     width: '90%',
-    borderRadius: 12,
+    borderRadius: 2,
     backgroundColor: '#FFFFFF',
-    height: 40,
+    height: 20,
     justifyContent: 'center',
     marginBottom: 30,
   },

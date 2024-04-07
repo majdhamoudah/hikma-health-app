@@ -5,7 +5,8 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^6.0.0",
@@ -37,8 +38,10 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.0",
-    "@babel/runtime": "^7.5.0",
+    "@babel/core": "7.16.5",
+    "@babel/preset-flow": "7.16.5",
+    "@babel/runtime": "7.16.5",
+    "@babel/traverse": "7.16.5",
     "@react-native-community/eslint-config": "^0.0.3",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
@@ -47,7 +50,7 @@
     "@types/react-test-renderer": "^16.9.0",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
-    "metro-react-native-babel-preset": "0.54.1",
+    "metro-react-native-babel-preset": "0.59.0",
     "react-test-renderer": "16.8.6",
     "typescript": "^3.6.3"
   },
