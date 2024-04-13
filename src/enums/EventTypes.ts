@@ -17,5 +17,7 @@ export enum EventTypes {
   Notes = 'Notes',
   Covid19Screening = 'COVID-19 Screening',
   DentalTreatment = 'Dental Treatment',
-  Physiotherapy = 'Physiotherapy'
+  Physiotherapy = 'Physiotherapy',
+  Sociodemographic = 'Sociodemographic',
+  Migration = 'Migration'
 }
